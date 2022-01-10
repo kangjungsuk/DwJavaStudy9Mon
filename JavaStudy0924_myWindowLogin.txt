@@ -1,0 +1,199 @@
+package javastudy;
+
+import java.awt.*;
+import java.awt.event.*;
+
+
+public class JavaStuday0924_1 {
+
+	public static void main(String[] args) 
+	{
+		JavaStudy0924_1 a = new JavaStudy0924_1();
+	}
+
+}
+
+
+class JavaStudy0924_1 extends Frame implements ActionListener
+{
+	Dimension dimen, dimen1;
+	int xpos, ypos;
+	
+	Label lbLogin = new Label("[ 회 원 가 입 ]");
+	Label lbName = new Label("이      름 :");
+	Label lbId = new Label("아 이 디 :");
+	Label lbPw = new Label("비      번 :");
+	Label lbPwOk = new Label("비번확인 :");
+	Label lbPhonNum = new Label("전      번 :");
+	
+	
+	TextField tfName = new TextField(15);
+	TextField tfPhonNum = new TextField(15);
+	TextField tfId = new TextField(15);
+	TextField tfPw = new TextField(15);
+	TextField tfPwOk = new TextField(15);
+	
+	Button btSuc = new Button("가입");
+	Button btCan = new Button("취소");
+	
+	private Label lbAlram = new Label("");
+	
+	JavaStudy0924_1()
+	{
+		super("윈도우로그인");
+		this.centerXYSet(); // 센터배치를 위해서 메서드로 정리
+		this.init(); //화면구성 메서드호출
+		this.start(); //이벤트및 스레드등 호출
+		
+		
+	}	
+	void centerXYSet()
+	{
+		this.setSize(400, 450);
+		dimen = Toolkit.getDefaultToolkit().getScreenSize();
+		dimen1 = this.getSize();
+		xpos = (int) (dimen.getWidth() / 2 - dimen1.getWidth() / 2);
+		ypos = (int) (dimen.getHeight() / 2 - dimen1.getHeight() / 2);		
+		this.setLocation(xpos, ypos);
+		this.setVisible(true);
+	}
+	void init()
+	{
+		
+		this.setLayout(null);
+		Font font = new Font("궁서 보통",Font.BOLD,15);
+		lbLogin.setBounds(150, 50, 150, 20);this.add(lbLogin);
+		lbLogin.setFont(font);
+		lbName.setBounds(80,100, 50, 20);this.add(lbName);
+		lbId.setBounds(80, 200, 50, 20);this.add(lbId);
+		lbPw.setBounds(80, 250, 50, 20);this.add(lbPw);
+		lbPwOk.setBounds(80, 300, 60, 20);this.add(lbPwOk);
+		lbPhonNum.setBounds(80, 150, 50, 20);this.add(lbPhonNum);
+		
+		tfName.setBounds(150, 100, 150, 20);this.add(tfName);
+		tfPhonNum.setBounds(150, 150, 150, 20);this.add(tfPhonNum);
+		tfId.setBounds(150, 200, 150, 20);this.add(tfId);
+		tfPw.setBounds(150, 250, 150, 20);this.add(tfPw);
+		tfPwOk.setBounds(150, 300, 150, 20);this.add(tfPwOk);
+		
+		btSuc.setBounds(150, 350, 50, 20);this.add(btSuc);
+		btCan.setBounds(250, 350, 50, 20);this.add(btCan);
+		
+		lbAlram.setBounds(100, 400, 250, 20);this.add(lbAlram);
+		
+		
+		
+		
+	}	
+	void start()
+	{		
+		btSuc.addActionListener(this);
+		btCan.addActionListener(this);
+		
+		
+		
+		
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+			});
+	}
+	
+	
+	void dialog(String msg) 
+	{
+		final Dialog dlg = new Dialog(this, "확인", true);
+		dlg.setLayout(new BorderLayout());		
+		dlg.add("Center", new Label(msg, Label.CENTER));
+		Button bt = new Button("확인");
+		Panel pp = new Panel(new FlowLayout());
+		pp.add(bt);
+		bt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dlg.setVisible(false);
+			}
+		});
+		dlg.add("South", pp);
+		dlg.setSize(300, 100);
+		
+		//중앙배치
+		Dimension dimen, dimen1;
+		int xpos, ypos;
+		dimen = Toolkit.getDefaultToolkit().getScreenSize();
+		dimen1 = dlg.getSize();
+		xpos = (int) (dimen.getWidth() / 2 - dimen1.getWidth() / 2);
+		ypos = (int) (dimen.getHeight() / 2 - dimen1.getHeight() / 2);
+		dlg.setLocation(xpos, ypos);
+		
+		
+		dlg.setVisible(true);
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==btSuc)
+		{
+			String Name = tfName.getText();
+			String  PhonNum = tfPhonNum.getText();
+			String Id = tfId.getText();
+			String Pw = tfPw.getText();
+			String PwOk = tfPwOk.getText();
+			
+			//공백예외처리
+			if(Name.equals("")) {
+				lbAlram.setText("이름을입력하시오."); 
+				dialog("이름 입력하시오.");
+				System.out.println("이름 입력하시오.");
+				return;
+			
+			}
+			if(PhonNum.equals("")) {
+				lbAlram.setText("전화번호를 입력하시오."); 
+				dialog("전화번호를 입력하시오.");
+				System.out.println("전화번호를 입력하시오.");
+				return;
+			
+			}
+			if(Id.equals("")) {
+				lbAlram.setText("아이디를 입력하시오."); 
+				dialog("아이디를 입력하시오.");
+				System.out.println("아이디를 입력하시오.");
+				return;
+			
+			}
+			if(Pw.equals("")) {
+				lbAlram.setText("비번을 입력하시오."); 
+				dialog("비번을 입력하시오.");
+				System.out.println("비번을 입력하시오.");
+				return;
+			
+			}
+			
+			
+			
+			if(Pw.equals(PwOk)) //확인버튼 비교
+			{
+				System.out.println("이름:"+Name);
+				System.out.println("전화번호:"+PhonNum);
+				System.out.println("아이디:"+Id);
+				System.out.println("비밀번호:"+Pw);
+				System.out.println("비밀번호확인:"+PwOk);
+				lbAlram.setText("회원가입이 정상적으로 처리되었습니다.");
+				dialog("로그인이 확인 되었습니다.");
+				
+			}
+			else //제어 처리.
+			{
+				lbAlram.setText("비밀번호가  서로 다릅니다. 확인!");
+				System.out.println("비밀번호가 서로 다릅니다. 확인!");
+				dialog("비밀번호가 서로 다릅니다. 확인!");
+				
+				
+				
+			}
+			
+		}
+		
+		
+	}
+}

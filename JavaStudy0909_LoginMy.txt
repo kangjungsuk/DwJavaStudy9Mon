@@ -1,0 +1,55 @@
+package javastudy;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextField;
+public class Login{
+	public static void main(String[] args) {
+		Login1 a = new Login1();
+	}
+}
+
+class Login1 extends Frame{
+	Label lbTitle = new Label("로그인 화면");
+	Label lbId = new Label("I  d :",Label.CENTER);
+	Label lbPw = new Label("P  w :",Label.CENTER);
+	Button btnLogin = new Button("로그인");
+	
+	TextField tfId = new TextField(10);
+	TextField tfPw = new TextField(10);
+	
+	Login1(){
+		super("과제1");
+		this.init();
+		this.setSize(300,150);
+		this.setVisible(true);
+		
+	}
+	void init() {
+		BorderLayout border = new BorderLayout();
+		this.setLayout(border);
+		Panel pTitle = new Panel();
+		pTitle.add(lbTitle);
+		
+		
+		
+		Panel pCenter = new Panel();
+		pCenter.setLayout(new GridLayout(2,2));
+		pCenter.add(lbId);
+		pCenter.add(tfId);
+		pCenter.add(lbPw);
+		pCenter.add(tfPw);
+		
+		Panel pBtn = new Panel();
+		pBtn.add(btnLogin);
+		
+		this.add("North", pTitle);
+		this.add("Center", pCenter);		
+		this.add("South", pBtn);
+		
+		}
+	
+}

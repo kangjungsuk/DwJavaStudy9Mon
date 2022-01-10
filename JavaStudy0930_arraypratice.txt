@@ -1,0 +1,133 @@
+package HelloJava;
+
+import java.util.Scanner;
+
+public class StudyJava0902_2 
+{
+	public static void main(String[] args) 
+	{		
+		Bban a = new Bban();
+	
+	}
+}
+class Aban extends Score
+	{
+	Scanner sc = new Scanner(System.in);
+	//String name[] = new String[10];
+	int score [][] = new int [10][4];
+	int select =0;
+	int cnt = 0;
+	Aban()
+	{
+			while(true) 
+			{
+			System.out.println("1.입력/2.출력/3번.종료");
+			System.out.println("선택");
+			select = sc.nextInt();
+				if(select ==1) 
+				{
+					super.input();    input();
+				}
+				else if(select ==2) 
+				{
+					output();
+				}
+				else if(select ==3) 
+				{
+					System.out.println("프로그램종료");
+					break;
+				}
+			}
+	}	
+	void input() 
+	{
+		//System.out.print(cnt+1+"번 이름:"); name[cnt] = sc.next();
+		System.out.print(cnt+1+"번 사회:");score[cnt][0] = sc.nextInt();
+		System.out.print(cnt+1+"번 과학:");score[cnt][1] = sc.nextInt();
+		score[cnt][2] = super.score[cnt][3] + score[cnt][0] +score[cnt][1];
+		score[cnt][3] = score[cnt][2]/5;
+		cnt++;
+	}
+	void output() 
+	{
+		for(int i =0; i <cnt; i++) 
+		{
+			System.out.println(i+1+"번"+name[i]+"의 총점"+score[i][2]+"/평균"+score[i][3]);
+		}
+	}
+}
+
+class Bban extends Score
+{
+	Scanner sc = new Scanner(System.in);
+	//String name[] = new String[10];
+	int score[][] = new int[10][4];
+	int select;
+	int cnt = 0;
+	Bban()
+	{
+		while(true) 
+		{
+		System.out.println("1.입력/2.출력/3번.종료");
+		System.out.println("선택");
+		select = sc.nextInt();
+			if(select ==1) 
+			{
+				super.input();    input();
+			}
+			else if(select ==2) 
+			{
+				output();
+			}
+			else if(select ==3) 
+			{
+				System.out.println("프로그램종료");
+				break;
+			}
+		}
+}	
+	
+	void input()
+	{
+		//System.out.print(cnt+1+"번 이름:"); name[cnt] = sc.next();
+		System.out.print(cnt+1+"번 음악:"); score[cnt][0] =sc.nextInt();
+		System.out.print(cnt+1+"번 미술:"); score[cnt][1] =sc.nextInt();
+		score[cnt][2] = super.score[cnt][3] +score[cnt][0] +score[cnt][1];
+		score[cnt][3] = score[cnt][2]/5;
+		cnt++;
+	}
+	void output() 
+	{
+		for(int i =0;i <cnt;i++) 
+		{
+			System.out.println(i+1+"번:"+name[i]+"의 총점:"+score[i][2]+"/평균"+score[i][3]);
+		}
+	}
+}
+
+class Score
+{
+	Scanner sc = new Scanner(System.in);
+	String name[] = new String[10];
+	int score[][] = new int[10][5];
+	int select;
+	int cnt= 0;
+	
+	void input() 
+	{
+		System.out.print(cnt+1+"번 이름:"); name[cnt] = sc.next(); //이름입력
+		System.out.print(cnt+1+"번 국어:"); score[cnt][0] = sc.nextInt(); //국어입력
+		System.out.print(cnt+1+"번 영어:"); score[cnt][1] = sc.nextInt(); //영어입력
+		System.out.print(cnt+1+"번 수학:"); score[cnt][2] = sc.nextInt(); //수학입력
+		score[cnt][3] = score[cnt][0] + score[cnt][1] + score[cnt][2]; //총점처리
+		score[cnt][4] = score[cnt][3] / 3;   //평균처리 
+		cnt++;
+	}
+	void output() 
+	{
+		for(int i = 0; i<cnt;i++) 
+		{
+			System.out.println(i+1+"번:"+name[i]+"의 총점:"+score[i][3]+"/ 평균:"+score[i][4]);
+		}
+	}
+}

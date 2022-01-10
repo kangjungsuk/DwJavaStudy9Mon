@@ -1,0 +1,147 @@
+package javastudy;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JavaStudy0929_3 {
+
+	public static void main(String[] args) {
+	
+		paan a = new paan();
+	}
+}
+
+class paan extends Frame implements ActionListener{
+	private Dimension dimen, dimen1;
+	private int xpos, ypos;
+	
+	Label lbtitle = new Label("게시판 글 등록화면");
+	Label lbjemog = new Label("제 목");
+	Label lbnayoung = new Label("내 용");
+	
+	TextField tfjemog = new TextField(50);
+	TextField tfHpnayoung = new TextField(100);
+	
+	Button btnJoin = new Button("등록");
+	Button btnCancel = new Button("취소");
+	
+	
+	
+	
+	paan()
+	{
+		super("자바공부");
+		this.centerXYSet(); // 센터배치를 위해서 메서드로 정리
+		
+		this.init(); //화면구성 메서드호출
+		this.start(); //이벤트및스레드등 호출		
+		
+		
+	}	
+	void centerXYSet()
+	{
+		this.setSize(500, 450);
+		dimen = Toolkit.getDefaultToolkit().getScreenSize();
+		dimen1 = this.getSize();
+		xpos = (int) (dimen.getWidth() / 2 - dimen1.getWidth() / 2);
+		ypos = (int) (dimen.getHeight() / 2 - dimen1.getHeight() / 2);		
+		this.setLocation(xpos, ypos);
+		this.setVisible(true);
+	}
+	void init()
+	{
+		//앱솔루트 셋팅을 위해 null셋팅
+		this.setLayout(null);
+		
+		lbtitle.setBounds (180,50,200,30);this.add(lbtitle);
+		lbjemog.setBounds (50,100,50,30);this.add(lbjemog);
+		lbnayoung.setBounds (50,200,50,30);this.add(lbnayoung);
+		
+		tfjemog.setBounds (100,100,200,30);this.add(tfjemog);
+		tfHpnayoung.setBounds (100,200,300,150);this.add(tfHpnayoung);
+		
+		btnJoin.setBounds (150,370,50,20);this.add(btnJoin);
+		btnCancel.setBounds (250,370,50,20);this.add(btnCancel);
+		
+		
+	}	
+	void start()
+	{		
+		btnJoin.addActionListener(this);
+		btnCancel.addActionListener(this);
+		
+		//윈도우우측상단 X 닫기 활성화
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==btnJoin) 
+		{
+			insert();
+		}
+		if(e.getSource()==btnCancel) 
+		{
+			System.exit(-1);
+		}
+		
+	}
+		
+	void insert()
+	{
+		try {
+			Class.forName("org.gjt.mm.mysql.Driver");
+		} catch (ClassNotFoundException ee) {
+			System.exit(0);
+		}
+		Connection conn = null;
+		String url = "jdbc:mysql://127.0.0.1:3306/java?useUnicode=true&characterEncoding=utf8";
+		String user = "root";// ID
+		String password = "qwer";// 비밀번호
+		try {
+			conn = DriverManager.getConnection(url, user, password);
+			System.out.println("연결되었습니다.");
+		} catch (SQLException ee) {
+			System.err.println("연결객체 생성실패!!");
+		}
+		Statement stmt = null;
+		String pquery = "insert into board values (null, ?,?)";
+		PreparedStatement pstmt = null;
+		try {
+			stmt = conn.createStatement();
+			pstmt = conn.prepareStatement(pquery);
+			pstmt.setString(1, tfjemog.getText());
+			pstmt.setString(2, tfHpnayoung.getText());
+			pstmt.executeUpdate();
+		} catch (SQLException ee) {
+			System.err.println("Query 실행 클래스 생성 에러~!! : " + ee.toString());
+		}
+		try {
+			stmt.close();
+			conn.close();
+		} catch (SQLException ee) {
+			System.err.println("error = " + ee.toString());
+		}
+		try {
+			pstmt.close();
+			stmt.close();
+			if (conn != null) {
+				if (!conn.isClosed()) {
+					conn.close();
+				}
+				conn = null;
+			}
+		} catch (SQLException ee) {
+			System.err.println("닫기 실패~!!");
+		}
+	}
+}

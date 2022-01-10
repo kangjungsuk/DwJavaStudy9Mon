@@ -1,0 +1,246 @@
+package javastudy;
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class JavaStudy0916_1 {
+
+	public static void main(String[] args) {
+		
+		GBB a = new GBB();
+		}
+
+}
+class GBB extends Frame implements ActionListener, ItemListener
+{
+	private Dimension dimen, dimen1;
+	private int xpos, ypos;
+	
+	Label lbJeMog = new Label("가위 바위 보 게임ver.0.1");
+	Label lbMyCh = new Label("=== 내 선택 ===");
+	Label lbComCh = new Label("== 컴퓨터선택 ==");
+	Label lbComWait = new Label("대기중...");
+	Label lbMtWait = new Label("진행멘트: 대기중...");
+	Label lbTest = new Label("Test");
+	
+	Choice chGaWe = new Choice();
+	Button btStr = new Button("시작");
+	Button btTong = new Button("통계보기");
+	
+
+	String mySel="바위";//이게 왜?""값이면 결과 라벨 값이 안나오나요?
+	String pcSel="바위";
+	
+	
+		int myWinCnt=0;  
+		int myLossCnt=0; 
+		int drawCnt=0;  
+	
+	GBB()
+	{
+		super("가위바위보게임");
+		this.centerXYSet(); 
+		this.start();
+		this.init(); 
+			
+		
+	}
+	void centerXYSet()
+	{
+		this.setSize(500, 450);
+		dimen = Toolkit.getDefaultToolkit().getScreenSize();
+		dimen1 = this.getSize();
+		xpos = (int) (dimen.getWidth() / 2 - dimen1.getWidth() / 2);
+		ypos = (int) (dimen.getHeight() / 2 - dimen1.getHeight() / 2);		
+		this.setLocation(xpos, ypos);
+		this.setVisible(true);
+	}
+	
+	void init()
+	{
+		//앱솔루트 셋팅을 위해 null셋팅
+		this.setLayout(null);
+		Font font = new Font("궁서 보통",Font.BOLD,20);
+		lbJeMog.setBounds(160,100,200,20);
+		lbJeMog.setFont(font);
+		lbMyCh.setBounds(90,150,100,20);
+		lbComCh.setBounds(300,150,100,20);
+		lbComWait.setBounds(300,180,100,20);
+		lbMtWait.setBounds(190,270,100,20);
+		chGaWe.setBounds(90,180,100,20);
+		btStr.setBounds(220,310,60,20);
+		btTong.setBounds(220,360,60,20);
+		lbTest.setBounds(220,390,60,20);
+		
+		chGaWe.add("가위");
+		chGaWe.add("바위");
+		chGaWe.add("보");
+		
+		this.add(lbJeMog);
+		this.add(lbMyCh);
+		this.add(lbComCh);
+		this.add(lbComWait);
+		this.add(lbMtWait);
+		this.add(chGaWe);
+		this.add(btStr);
+		this.add(btTong);
+		this.add(lbTest);
+	}
+	
+	void start()
+	{		
+		chGaWe.addItemListener(this);
+		btStr.addActionListener(this);
+		btTong.addActionListener(this);
+		
+		this.addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing(WindowEvent e) 
+			{
+				System.exit(0);
+			}
+		});
+	}
+
+	public void itemStateChanged(ItemEvent e) {
+		String temp =chGaWe.getSelectedItem();
+		lbTest.setText(temp);
+		mySel = temp;
+	}
+	
+	
+	
+	public void actionPerformed(ActionEvent e) {
+		
+		if(e.getSource() == btStr) 
+		{	pcSelect();}	
+		
+		else if(e.getSource() == btTong) 
+		{
+			final Dialog dlg = new Dialog(this, "< 가위바위보게임 통계 >", true);
+			dlg.setLayout(null);	
+			
+			Label lbTitle = new Label("전체전적보기");
+			Label lbWin = new Label("승리 : "+myWinCnt+" 회");
+			Label lbLoss = new Label("패배 : "+myLossCnt+" 회");
+			Label lbDraw = new Label("무승부 : "+drawCnt+" 회");
+			Button bt = new Button("확인");
+			
+			lbTitle.setBounds(100, 50, 100, 20); dlg.add(lbTitle);
+			lbWin.setBounds(100, 90, 100, 20); dlg.add(lbWin);
+			lbLoss.setBounds(100, 130, 100, 20); dlg.add(lbLoss);
+			lbDraw.setBounds(100, 170, 100, 20); dlg.add(lbDraw);
+			bt.setBounds(100, 210, 100, 20); dlg.add(bt);
+			
+			
+			
+			//확인버튼
+			bt.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dlg.setVisible(false);
+				}
+			});
+			
+			//dlg 윈도우창 X닫기 활성화
+			dlg.addWindowListener(new WindowAdapter() {
+				public void windowClosing(WindowEvent e) {
+					dlg.setVisible(false);
+				}
+			});
+			dlg.setSize(300, 300);
+			
+			
+			//중앙배치...
+			Dimension dimen, dimen1;
+			int xpos, ypos;
+			dimen = Toolkit.getDefaultToolkit().getScreenSize();
+			dimen1 = dlg.getSize();
+			xpos = (int) (dimen.getWidth() / 2 - dimen1.getWidth() / 2);
+			ypos = (int) (dimen.getHeight() / 2 - dimen1.getHeight() / 2);		
+			dlg.setLocation(xpos, ypos);
+			
+			
+			dlg.setVisible(true);
+		}
+	}
+			
+		void pcSelect()
+		{
+			try {
+				Thread.sleep(1000);
+				lbComWait.setText("3");
+				Thread.sleep(1000);
+				lbComWait.setText("2");
+				Thread.sleep(1000);
+				lbComWait.setText("1");
+				Thread.sleep(1000);
+				lbComWait.setText("컴퓨터 선택!");
+				Thread.sleep(500);
+				lbComWait.setText(".");
+				Thread.sleep(500);
+				lbComWait.setText("...");
+				Thread.sleep(500);
+				lbComWait.setText(".....");
+				Thread.sleep(500);
+				lbComWait.setText(".........!!!");
+				Thread.sleep(500);
+				
+				//랜덤으로 가위바위보 생성
+				int x = (int)(Math.random()*3);
+				if(x ==0 ) { pcSel = "가위"; }
+				else if(x ==1 ) { pcSel = "바위"; }
+				else if(x ==2 ) { pcSel = "보"; }
+				
+				lbComWait.setText(pcSel);
+				
+				//결과처리구간..
+				process();
+				
+			
+			} 
+			catch (InterruptedException e1) {	}
+
+		}
+		void process()
+		{
+			if(mySel.equals("가위"))
+			{
+				if(pcSel.equals("가위"))
+				{
+					lbMtWait.setText("결과 : 무승부!");drawCnt++;
+				}else if(pcSel.equals("바위"))
+				{
+					lbMtWait.setText("결과 : 나의 패배!");myLossCnt++;
+				}else if(pcSel.equals("보"))
+				{
+					lbMtWait.setText("결과 : 나의승리!");myWinCnt++;
+				}
+				
+			}else if(mySel.equals("바위"))
+			{
+				if(pcSel.equals("가위"))
+				{
+					lbMtWait.setText("결과 : 나의 승리!");myWinCnt++;
+				}else if(pcSel.equals("바위"))
+				{
+					lbMtWait.setText("결과 : 무승부!");drawCnt++;
+				}else if(pcSel.equals("보"))
+				{
+					lbMtWait.setText("결과 : 나의패배!");myLossCnt++;
+				}
+			}else if(mySel.equals("보"))
+			{
+				if(pcSel.equals("가위"))
+				{
+					lbMtWait.setText("결과 : 나의패배!");myLossCnt++;
+				}else if(pcSel.equals("바위"))
+				{
+					lbMtWait.setText("결과 : 나의승리!");myWinCnt++;
+				}else if(pcSel.equals("보"))
+				{
+					lbMtWait.setText("결과 : 무승부!");drawCnt++;
+				}
+			}
+		}
+			
+}

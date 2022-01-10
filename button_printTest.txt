@@ -1,0 +1,83 @@
+package JavaStudy;
+
+import java.awt.Button;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Label;
+import java.awt.TextField;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+public class JavaStudy0914_1 extends Frame implements ActionListener{
+	private Dimension dimen, dimen1;
+	private int xpos, ypos;
+	
+	private Label lbText = new Label("1234567890");
+	private TextField tfInput = new TextField(15);
+	private Button bt1 = new Button("강제출력");
+	private Button bt2 = new Button("입력출력");
+	
+	JavaStudy0914_1()
+	{
+		super("자바공부");
+		this.centerXYSet(); // 센터배치를 위해서 메서드로 정리
+		this.init(); //화면구성 메서드호출
+		this.start(); //이벤트및스레드등 호출
+		
+		
+	}	
+	void centerXYSet()
+	{
+		this.setSize(500, 450);
+		dimen = Toolkit.getDefaultToolkit().getScreenSize();
+		dimen1 = this.getSize();
+		xpos = (int) (dimen.getWidth() / 2 - dimen1.getWidth() / 2);
+		ypos = (int) (dimen.getHeight() / 2 - dimen1.getHeight() / 2);		
+		this.setLocation(xpos, ypos);
+		this.setVisible(true);
+	}
+	void init()
+	{
+		//앱솔루트 셋팅을 위해 null셋팅
+		this.setLayout(null);
+		lbText.setBounds(200,100,100,20);
+		tfInput.setBounds(150,150,150,20);
+		bt1.setBounds(100,200,100,20);
+		bt1.setBounds(250,200,100,20);
+		this.add(lbText);
+		this.add(tfInput);
+		this.add(bt1);
+		this.add(bt2);
+		
+	}	
+	void start()
+	{		
+	bt1.addActionListener(this);
+	bt2.addActionListener(this);
+		
+		
+		
+		//윈도우우측상단 X 닫기 활성화
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+			});
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==bt1) {
+			System.out.println("1");
+			lbText.setText("안녕하세요");
+		}
+		else if(e.getSource()==bt2) {
+			System.out.println("2");
+			String temp = tfInput.getText();
+			lbText.setText("temp");
+		}
+		
+	}
+}
